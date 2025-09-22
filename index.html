@@ -1,125 +1,619 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>Facebook Share Link Converter</title>
-  <style>
-    @keyframes glow {
-      0% { box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 20px #0ea5a0, 0 0 30px #38bdf8; }
-      50% { box-shadow: 0 0 15px #06b6d4, 0 0 25px #0ea5a0, 0 0 35px #38bdf8, 0 0 45px #06b6d4; }
-      100% { box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 20px #0ea5a0, 0 0 30px #38bdf8; }
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All in One: RAKIB's Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.4.2/sha.js"></script>
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #0f172a;
-      color: #f1f5f9;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+        .section-wrapper {
+            margin: 40px 0;
+            width: 100%;
+            max-width: 450px;
+        }
 
-    .box {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      animation: glow 2.5s infinite alternate;
-    }
+        /* --- Style for Facebook Converter --- */
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 20px #0ea5a0, 0 0 30px #38bdf8; }
+            50% { box-shadow: 0 0 15px #06b6d4, 0 0 25px #0ea5a0, 0 0 35px #38bdf8, 0 0 45px #06b6d4; }
+            100% { box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 20px #0ea5a0, 0 0 30px #38bdf8; }
+        }
+        
+        .fb-converter-box {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            animation: glow 2.5s infinite alternate;
+        }
+        .fb-converter-box h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .fb-converter-box input, .fb-converter-box button {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .fb-converter-box input {
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #f1f5f9;
+        }
+        .fb-converter-box input::placeholder {
+            color: #94a3b8;
+        }
+        .fb-converter-box button {
+            background: linear-gradient(90deg, #0ea5a0, #06b6d4);
+            color: #021023;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .fb-converter-box button:hover {
+            opacity: 0.9;
+        }
+        .fb-converter-box .result {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #cbd5e1;
+            word-break: break-all;
+        }
+        .fb-converter-box .result a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .fb-converter-box .result a:hover {
+            text-decoration: underline;
+        }
 
-    h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
+        /* --- Style for Name Generator --- */
+        .name-gen-container-wrapper {
+            padding: 5px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .name-gen-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            color: #333;
+        }
+        #displayName {
+            font-size: 2em;
+            margin-bottom: 20px;
+            min-height: 1.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+        #changeNameBtn {
+            background-color: #007bff;
+            color: white;
+        }
+        #changeNameBtn:hover {
+            background-color: #0056b3;
+        }
+        #copyNameBtn {
+            background-color: #28a745;
+            color: white;
+        }
+        #copyNameBtn:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        #copyNameBtn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        #copyMessage {
+            margin-top: 10px;
+            color: #28a745;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #copiedNameCountDisplay { 
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .animated-title {
+            position: relative;
+            font-size: 5vw;
+            color: #252839;
+            -webkit-text-stroke: 0.10vw #383d52;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            white-space: nowrap;
+            margin: 0 auto 20px auto;
+        }
+        .animated-title::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            color: #01fe87;
+            -webkit-text-stroke: 0vw #383d52;
+            border-right: 2px solid #01fe87;
+            overflow: hidden;
+            animation: animate 6s linear infinite;
+        }
+        @keyframes animate {
+            0%, 10%, 100% { width: 0; }
+            70%, 90% { width: 100%; }
+        }
 
-    input, button {
-      width: 100%;
-      height: 40px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    input {
-      padding: 8px 10px;
-      margin-bottom: 12px;
-      background: rgba(255,255,255,0.05);
-      color: #f1f5f9;
-    }
-
-    input::placeholder {
-      color: #94a3b8;
-    }
-
-    button {
-      background: linear-gradient(90deg,#0ea5a0,#06b6d4);
-      color: #021023;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .result {
-      margin-top: 16px;
-      font-size: 14px;
-      color: #cbd5e1;
-      word-break: break-all;
-    }
-
-    .result a {
-      color: #38bdf8;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .result a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        /* --- Style for 2FA Tool --- */
+        .card-wrapper {
+            padding: 4px;
+            border-radius: 14px;
+            background: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ff6600);
+            background-size: 800% 800%;
+            animation: gradientMove 8s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container-2fa {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .container-2fa h2 { margin-bottom: 20px; color: #333; }
+        .container-2fa input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .code-box {
+            font-size: 28px;
+            font-weight: bold;
+            background: #222;
+            color: #0f0;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .code-box:hover { background: #333; }
+        .msg { margin-top: 10px; font-size: 14px; color: #555; }
+        .expire { margin-top: 10px; font-size: 14px; color: #eab308; font-weight: bold; }
+        .progress-container { margin-top: 8px; width: 100%; height: 6px; background: #ddd; border-radius: 4px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #22c55e, #ef4444); width: 100%; transition: width 1s linear; }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Facebook Share Link Converter</h2>
-    <input type="text" id="fbLink" placeholder="এখানে Facebook লিংক দিন">
-    <button onclick="openPopup()">Generate</button>
-    <div class="result" id="result"></div>
-  </div>
 
-  <script>
-    function openPopup() {
-      const input = document.getElementById("fbLink");
-      let link = input.value.trim();
-      if (!link) {
-        alert("অনুগ্রহ করে একটি লিংক দিন!");
-        return;
-      }
+    <div class="section-wrapper">
+        <div class="fb-converter-box">
+            <h2>Facebook Share Link Converter</h2>
+            <input type="text" id="fbLink" placeholder="এখানে Facebook লিংক দিন">
+            <button onclick="openPopup()">Generate</button>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
 
-      // www.facebook.com → m.facebook.com
-      const converted = link.replace("www.facebook.com", "m.facebook.com");
+    <div class="section-wrapper">
+        <h3 class="animated-title" data-text="CLASHER_BOY_RAKIB">CLASHER_BOY_RAKIB</h3>
+        <div class="name-gen-container-wrapper">
+            <div class="name-gen-container">
+                <div id="displayName"></div>
+                <div class="buttons">
+                    <button id="changeNameBtn">Change Name</button>
+                    <button id="copyNameBtn">Copy Name</button>
+                </div>
+                <div id="copiedNameCountDisplay">Generated Unique Names Copied : 0 / 0</div> 
+                <div id="copyMessage">Name copied to clipboard!</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section-wrapper">
+        <div class="card-wrapper">
+            <div class="container-2fa">
+                <h2>RAKIB 2FA Tools</h2>
+                <input type="text" id="secret" placeholder="Paste your secret key">
+                <div id="codeBox" class="code-box">------</div>
+                <div class="expire" id="expire"></div>
+                <div class="progress-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+                <div class="msg" id="msg">Click code to copy</div>
+            </div>
+        </div>
+    </div>
 
-      // ইনপুট খালি করো
-      input.value = "";
+    <script>
+        // --- Script for Facebook Converter ---
+        function openPopup() {
+            const input = document.getElementById("fbLink");
+            const resultDiv = document.getElementById("result");
+            let link = input.value.trim();
 
-      // ছোট popup window ওপেন
-      window.open(converted, "popupWindow",
-        "width=500,height=600,scrollbars=yes,resizable=yes");
+            if (!link) {
+                alert("অনুগ্রহ করে একটি লিংক দিন!");
+                return;
+            }
 
-      // নিচে লিংক দেখাও
-      document.getElementById("result").innerHTML = `
-        Open link 👇<br>
-        <a href="${converted}" target="_blank">${converted}</a>
-      `;
-    }
-  </script>
+            const converted = link.replace("www.facebook.com", "m.facebook.com");
+            resultDiv.innerHTML = 'Converted Link: <br><a href="' + converted + '" target="_blank">' + converted + '</a>';
+            input.value = ""; // Clear the input field
+        }
+
+        // --- Script for Name Generator ---
+        const firstNames = [
+            "maya", "Fatima", "Taniah", "Nazma", "Simran", "Sabrina", "Rifat", "Nisha", "Rupa", "Nila", "Mahira",
+            "Sharmin", "Shanta", "Nusrat", "Sohana", "Zannat", "Samira", "Meher", "Arifa", "Liza", "Tasmin",
+            "Fariha", "Rabia", "Munira", "Khadija", "Shirin", "Afsana", "Jannat", "Rina", "Radhika", "Saira",
+            "Momena", "Roksana", "Tamanna", "Alina", "Anika", "Anjum", "Meem", "Mariam", "Shaila", "Laila",
+            "Noori", "Sumaiya", "Asma", "Amina", "Lamia", "Sumiya", "Isha", "Nilufa", "Mishti", "Siti", "Rumi",
+            "Momo", "Shafina", "Rubina", "Lubna", "Haritha", "Farzana", "Sadaf", "Safiya", "Hena", "Salma",
+            "Rummana", "Rafina", "Tushna", "Sakina", "Sabina", "Nargis", "Sujatha", "Mina", "Nabila", "Anoushka",
+            "Mahin", "Mishka", "Hina", "Kanza", "Sonal", "Afia", "Zoya", "Bushra", "Shuma", "Parveen", "Kiran",
+            "Sharmeen", "Nadia", "Khushbu", "Mira", "Marufa", "Dilruba", "Rashida", "Meherun", "Tuba", "Sumi",
+            "Shamsa", "Afreen", "Shabana", "Shahina", "Tanisha", "Sultana", "Sufia", "Riaz", "Sharifa", "Nilima",
+            "Mehnaz", "Roza", "Suma", "Rakia", "Risha", "Salina", "Nafisa", "Malina", "Ruba", "Mahjabin", "Liyana",
+            "Samia", "Nusi", "sohan", "Sumaya", "Raziya", "Nazrin", "Tania", "Sana", "Shumona", "Tasfia", "Huma",
+            "Morsheda", "Tanvi", "Razia", "Firoza", "Tanima", "Nairah", "Rafiqua", "Shifa", "Iman", "Hira", "Shima",
+            "Purnima", "Naima", "Kaniz", "Anushka", "Sayma", "Farhana", "Rezwana", "Anwar", "Rima", "Ruhi", "Sabera",
+            "Nadiya", "Sabila", "Hannan", "Shireen", "Nurjahan", "Sonia", "Nahid", "Usha", "Tanjina", "Sahar",
+            "Mizan", "Shamima", "Asiya", "Maisha", "Nilufer", "Tazeen", "Tanjila", "Zeenat", "Riana", "Dilara",
+            "Zara", "Rabeya", "mona", "Noor", "Shama", "Niharika", "Nayema", "Akila", "Mahi", "Shafia", "Amira",
+            "Nimra", "Ruma", "Prity", "Sania", "Zakia", "Alia", "Bibi", "Tashfia", "Samina", "Erina", "Ascha",
+            "Rishika", "Tanika", "Sharmila", "Khalida", "Suman", "mim", "Ahsina", "Shabnam", "Raima", "Anousha",
+            "Rakhi", "Kashifa", "Maimuna", "Marzia", "Rahima", "Sadiya", "Yasmin", "Sita", "Rajia", "Afifa",
+            "Sumona", "Misbah", "Shahana", "Sanam", "Kaderia", "Zahira", "Aisha", "Aleya", "Amena", "Anjuman",
+            "Anwara", "Asmani", "Atia", "Aysha", "Barsha", "Bilkis", "Bonna", "Chhaya", "Dalia", "Eliya", "Elma",
+            "Fahmida", "Faria", "Fatema", "Fiza", "Fuli", "Giti", "Gulshan", "Habiba", "Hana", "Hasna", "Heena",
+            "Humaira", "Ishrat", "Jasmin", "Joba", "Kajol", "Karishma", "Kashfia", "Khaleda", "Laboni", "Latifa",
+            "Lima", "Mahbuba", "Maleka", "Marjan", "Mili", "Minara", "Monira", "Moushumi", "Munia", "Najma",
+            "Nasima", "Nazia", "Nazmun", "Neela", "Nigar", "Nowshin", "Poppy", "Priyanka", "Raisa", "Rokeya",
+            "Rozina", "Rumana", "Sadia", "Kabita", "Kabila", "Kadija", "Kafia", "Kajal", "Kalpana", "Kamala",
+            "Kanta", "Kanika", "Karima", "Kawsar", "Kaziya", "Keisha", "Keya", "Khatija", "Kheya", "Khushboo",
+            "Kirti", "Komal", "Koushani", "Kripa", "Kriti", "Kusum", "Kusuma", "Kuhu", "Kunti", "Kusumita",
+            "Kholida", "Kismat", "Kisha", "Kishori", "Krishika", "Kendra", "Kajori", "Kanini", "Kalyani", "Kirtana",
+            "Kinkini", "Kamini", "Kanti", "Kaviya", "Kareemah", "Khushali", "Komola", "Krishani", "Krithika",
+            "Kadambini", "Kamrunnahar", "Kavita", "Kantha", "Kalika", "Kandra", "Koyel", "Kiranmayee", "Kushi",
+            "Kiranpreet", "Kalpita", "Kausar", "Kareena", "Kanchan", "Kasma", "Kirana", "Kanchana", "Kesia",
+            "Kinza", "Kashaf", "Khatun", "Kanchani", "Kani", "Kamrun", "Kamrul", "Kulsuma", "Krina", "Kanjana",
+            "Khadeeja", "Kunya", "Krupa", "Kanji", "Kamar", "Kishmita", "Kanara", "Kumudini", "Krisha", "Kalpitha",
+            "Kitiya", "Krishan", "Kamari", "Rafia", "Raihana", "Ranya", "Rasha", "Rasika", "Rasmira", "Raza",
+            "Rifa", "Rimsha", "Rini", "Rista", "Rithika", "Rukhsana", "Rubaba", "Rumiya", "Rumina", "Rubel",
+            "Ridhi", "Reema", "Ranjana", "Rekha", "Roshni", "Rajika", "Reshma", "Rakiba", "Raina", "Reena",
+            "Rufaida", "Rasiya", "Razina", "Rukia", "Rajnish", "Ralina", "Riya", "Rithu", "Rasna", "Ritu",
+            "Rajisha", "Rupi", "Rasin", "Rosina", "Rookshana", "Raheel", "Roshan", "Raheela", "Romi", "Rafiya",
+            "Ranu", "Rihana", "Rinal", "Rasheeda", "Rabi", "Roshika", "Rehnuma", "Rafika", "Rumel", "Rishma",
+            "Rehena", "Rasima", "Ramisha", "Rehana", "Ayesha", "Maliya", "Malika", "Manara", "Maneha", "Manisha",
+            "Mariah", "Marjana", "Mehzabin", "Mehtab", "Melina", "Miftah", "Mila", "Mita", "Mobina", "Monisha",
+            "Mounira", "Muntaha", "Mursalina", "Muskaan", "Najia", "Naila", "Nasrin", "Nayera", "Neha", "Nilofer",
+            "Noreen", "Nushrat", "Nuzhat", "Rabiya", "Rafiqa", "Reem", "Refeya", "Shashi", "Sheela", "Sifat",
+            "Somia", "Nahida", "Saleha", "Sahida", "Nuru", "Jonaki", "Moina", "Piya", "Pakhi", "Akhi", "Hasi",
+            "Khushi", "Muskan", "Masum", "Sayeda", "Setu", "Mitu", "Susmita", "Choiti", "Anuska", "Popi", "Sathi",
+            "Nondini", "Sorna", "Tuktuki", "Ayat", "Eba", "Noina", "Siuli", "Bulbuli", "Rupti", "Shova", "Joya",
+            "Sammi", "Jahan", "Israt", "Toya", "Jannobi", "Janu", "Nodi", "Oli", "Soneya", "Samiya", "Raniya",
+            "Nilu", "Putul", "Nuri", "Taiba", "Tusti", "Saniya", "Nourin", "kaya", "Aditi", "Amrita", "Anjali",
+            "Arpita", "Bina", "Bipasha", "Chaitali", "Charulata", "Damini", "Deepa", "Devika", "Dipti", "Durga",
+            "Elina", "Gita", "Gungun", "Hema", "Ipsita", "Jaya", "Jyoti", "Karuna", "Lata", "Manju", "Meera",
+            "Monika", "Moumita", "Neelam", "Nidhi", "Pallavi", "Pooja", "Priya", "Sadhna", "Sangeeta", "Sandhya",
+            "Sarita", "Seema", "Shanti", "Shobha", "Smita", "Sneha", "Soni", "Sonali", "Sreeja", "Sumita", "Sunita",
+            "Swapna", "Tarini", "Trisha", "Urmila", "Uttara", "Vibha", "Vidya", "Asha", "Ananya", "Aruna", "Bahar",
+            "Basanti", "Bhavana", "Chandra", "Chandana", "Dipa", "Gargee", "Nirupa", "Pratima", "Rani", "Sarojini",
+            "Shalini", "Shweta", "Snehalata", "Sonika", "Suchita", "Subha", "Sukanya", "Sweta", "Urvashi", "Joiti",
+            "Papiya", "Piyonti", "Preyosi", "Pori", "Mantasa", "Nijhum", "Golapi", "Prety", "Sompa", "Srety",
+            "Suppiya", "Konika", "Polok"
+        ];
+
+        const lastNames = [
+            "mim", "islam", "khatun", "hossain", "Simran", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin",
+            "rahman", "khan", "akther", "chowdhary", "akther", "islam", "khatun", "hossain", "chowdhary", "mia",
+            "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "akther", "islam", "khatun",
+            "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan",
+            "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed",
+            "uddin", "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud",
+            "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "islam",
+            "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan",
+            "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed",
+            "uddin", "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud",
+            "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "akther", "islam", "khatun", "hossain",
+            "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "islam",
+            "khatun", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan",
+            "akther", "islam", "khatun", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "khan",
+            "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "sikdar", "talukdar", "ahmed", "uddin",
+            "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar",
+            "talukdar", "ahmed", "uddin", "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary",
+            "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "akther", "islam",
+            "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman",
+            "khan", "islam", "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin",
+            "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar",
+            "talukdar", "ahmed", "uddin", "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary",
+            "mia", "mahmud", "sikdar", "talukdar", "uddin", "rahman", "khan", "akther", "islam", "khatun",
+            "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "akther",
+            "islam", "khatun", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "uddin", "rahman", "khan",
+            "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar", "talukdar", "ahmed", "uddin",
+            "rahman", "khan", "akther", "islam", "khatun", "hossain", "chowdhary", "mia", "mahmud", "sikdar",
+            "talukdar", "ahmed", "uddin", "rahman", "akther", "islam", "khatun", "hossain", "chowdhary", "mia",
+            "mahmud", "sikdar", "talukdar", "ahmed", "uddin", "rahman", "khan", "akther"
+        ];
+
+        const displayName = document.getElementById('displayName');
+        const changeNameBtn = document.getElementById('changeNameBtn');
+        const copyNameBtn = document.getElementById('copyNameBtn');
+        const copyMessage = document.getElementById('copyMessage');
+        const copiedNameCountDisplay = document.getElementById('copiedNameCountDisplay'); 
+
+        const generatedAndCopiedNamesToday = new Set(); 
+        const maxPossibleNames = firstNames.length * lastNames.length;
+
+        function getTodayDateString() {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+
+        function loadCountersAndNames() {
+            const savedCopiedNames = localStorage.getItem('generatedAndCopiedNamesToday');
+            const savedResetDate = localStorage.getItem('lastResetDate');
+            const todayDate = getTodayDateString();
+
+            if (savedResetDate !== todayDate) {
+                generatedAndCopiedNamesToday.clear();
+                localStorage.setItem('lastResetDate', todayDate);
+                localStorage.setItem('generatedAndCopiedNamesToday', JSON.stringify([]));
+            } else if (savedCopiedNames) {
+                const namesArray = JSON.parse(savedCopiedNames);
+                namesArray.forEach(name => generatedAndCopiedNamesToday.add(name));
+            }
+            updateDisplayCounts();
+        }
+
+        function updateDisplayCounts() {
+            copiedNameCountDisplay.textContent = `Generated Unique Names Copied : ${generatedAndCopiedNamesToday.size} / ${maxPossibleNames}`;
+            if (generatedAndCopiedNamesToday.size === maxPossibleNames) {
+                changeNameBtn.disabled = true;
+                displayName.textContent = "All unique names generated and copied for today!";
+                copyNameBtn.disabled = true;
+                copyNameBtn.textContent = "All Copied!";
+            } else {
+                changeNameBtn.disabled = false;
+            }
+        }
+
+        function generateNewUniqueNameForDisplay() {
+            if (generatedAndCopiedNamesToday.size === maxPossibleNames) {
+                displayName.textContent = "All unique names generated and copied for today!";
+                changeNameBtn.disabled = true;
+                copyNameBtn.disabled = true;
+                copyNameBtn.textContent = "All Copied!";
+                return;
+            }
+
+            let newName;
+            let attempts = 0;
+            const maxAttempts = 5000;
+            
+            do {
+                const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                newName = `${randomFirstName} ${randomLastName}`;
+                attempts++;
+                if (attempts > maxAttempts) {
+                    console.warn("Max attempts reached. Could not find a completely new unique name quickly.");
+                    break;
+                }
+            } while (generatedAndCopiedNamesToday.has(newName));
+            
+            displayName.textContent = newName;
+            
+            if (generatedAndCopiedNamesToday.has(newName)) {
+                copyNameBtn.disabled = true;
+                copyNameBtn.textContent = "Already Copied!";
+            } else {
+                copyNameBtn.disabled = false; 
+                copyNameBtn.textContent = "Copy Name";
+            }
+        }
+
+        changeNameBtn.addEventListener('click', () => {
+            generateNewUniqueNameForDisplay();
+            copyMessage.style.opacity = 0;
+        });
+
+        copyNameBtn.addEventListener('click', () => {
+            const nameToCopy = displayName.textContent;
+            
+            if (nameToCopy && !copyNameBtn.disabled && nameToCopy !== "All unique names generated and copied for today!") {
+                if (!generatedAndCopiedNamesToday.has(nameToCopy)) {
+                    navigator.clipboard.writeText(nameToCopy).then(() => {
+                        copyMessage.style.opacity = 1;
+                        setTimeout(() => { copyMessage.style.opacity = 0; }, 2000);
+                        generatedAndCopiedNamesToday.add(nameToCopy);
+                        localStorage.setItem('generatedAndCopiedNamesToday', JSON.stringify(Array.from(generatedAndCopiedNamesToday)));
+                        updateDisplayCounts();
+                        copyNameBtn.disabled = true;
+                        copyNameBtn.textContent = "Copied!";
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                        alert('Failed to copy name. Please try again.');
+                    });
+                } else {
+                    console.log("Error: This name was already in the copied set.");
+                    copyNameBtn.disabled = true;
+                    copyNameBtn.textContent = "Already Copied!";
+                }
+            } else {
+                alert('This name has already been copied or there is no new name to copy!');
+            }
+        });
+
+        loadCountersAndNames();
+        generateNewUniqueNameForDisplay();
+
+        // --- Script for 2FA Tool ---
+        const secretInput = document.getElementById("secret");
+        const codeBox = document.getElementById("codeBox");
+        const msg = document.getElementById("msg");
+        const expireBox = document.getElementById("expire");
+        const progressBar = document.getElementById("progressBar");
+
+        let secret = "";
+        let interval;
+
+        function base32tohex(base32) {
+            const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+            let bits = "", hex = "";
+            base32 = base32.replace(/=+$/, "");
+            for (let i = 0; i < base32.length; i++) {
+                const val = base32chars.indexOf(base32.charAt(i).toUpperCase());
+                if (val >= 0) bits += val.toString(2).padStart(5, "0");
+            }
+            for (let i = 0; i + 4 <= bits.length; i += 4) {
+                hex += parseInt(bits.substr(i, 4), 2).toString(16);
+            }
+            return hex;
+        }
+
+        function generateOTP(secret) {
+            const epoch = Math.floor(new Date().getTime() / 1000.0);
+            const time = Math.floor(epoch / 30).toString(16).padStart(16, "0");
+            const key = base32tohex(secret);
+            const hmac = new jsSHA("SHA-1", "HEX");
+            hmac.setHMACKey(key, "HEX");
+            hmac.update(time);
+            const hmacResult = hmac.getHMAC("HEX");
+            const offset = parseInt(hmacResult.substr(hmacResult.length - 1), 16);
+            const otp = (parseInt(hmacResult.substr(offset * 2, 8), 16) & 0x7fffffff) + "";
+            return otp.substr(otp.length - 6, 6);
+        }
+
+        function startOTP() {
+            if (interval) clearInterval(interval);
+            interval = setInterval(() => {
+                if (secret) {
+                    try {
+                        const otp = generateOTP(secret);
+                        codeBox.innerText = otp;
+                        const epoch = Math.floor(new Date().getTime() / 1000.0);
+                        const countdown = 30 - (epoch % 30);
+                        expireBox.innerText = "Expire Later: " + countdown + " second";
+                        progressBar.style.width = (countdown / 30 * 100) + "%";
+                    } catch {
+                        codeBox.innerText = "ERROR";
+                    }
+                }
+            }, 1000);
+        }
+
+        function copyToClipboard(text) {
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    msg.innerText = "Copied!";
+                    setTimeout(() => msg.innerText = "Click code to copy", 2000);
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand("copy");
+                msg.innerText = "Copied!";
+            } catch {
+                msg.innerText = "Copy failed!";
+            }
+            document.body.removeChild(tempInput);
+            setTimeout(() => msg.innerText = "Click code to copy", 2000);
+        }
+
+        function updateSecretAndGenerate(val) {
+            secret = val.trim();
+            if (secret) {
+                try {
+                    const otp = generateOTP(secret);
+                    codeBox.innerText = otp;
+                    startOTP();
+                    secretInput.value = "";
+                    setTimeout(() => copyToClipboard(otp), 300);
+                } catch {
+                    codeBox.innerText = "ERROR";
+                }
+            } else {
+                codeBox.innerText = "------";
+            }
+        }
+
+        secretInput.addEventListener("paste", (e) => {
+            e.preventDefault();
+            const pasteData = (e.clipboardData || window.clipboardData).getData('text');
+            secretInput.value = pasteData;
+            updateSecretAndGenerate(pasteData);
+        });
+
+        secretInput.addEventListener("input", () => updateSecretAndGenerate(secretInput.value));
+
+        codeBox.addEventListener("click", () => {
+            if (codeBox.innerText && codeBox.innerText !== "------") {
+                copyToClipboard(codeBox.innerText);
+            }
+        });
+    </script>
 </body>
 </html>
